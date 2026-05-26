@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Safa 💖 - Dari Jelly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap');
+
+        :root {
+            --pink: #ff8fab;
+            --rose: #ff4d94;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            background: #1a0f17;
+        }
+
+        .romantic-font { font-family: 'Dancing Script', cursive; }
+        .title-font { font-family: 'Great Vibes', cursive; }
+
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            background: radial-gradient(circle at 40% 30%, #4c1d95 0%, transparent 60%),
+                        radial-gradient(circle at 70% 70%, #9f1239 0%, transparent 70%);
+            opacity: 0.55;
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            opacity: 0.75;
+            pointer-events: none;
+        }
+
+        .floating-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .photo-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(255, 77, 148, 0.3);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.04) rotate(1deg);
+            box-shadow: 0 20px 40px -15px rgba(255, 77, 148, 0.5);
+        }
+
+        .photo-card img {
+            transition: transform 0.9s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.12);
+        }
+
+        .photo-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .photo-card:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        @keyframes gentleFloat {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-120vh) rotate(25deg); }
+        }
+
+        .float-item {
+            position: absolute;
+            animation: gentleFloat linear infinite;
+            will-change: transform;
+            opacity: 0.65;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+
+    <!-- INTRO GIFT SCREEN -->
+    <div id="introScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#1a0f17]">
+        <div class="text-center">
+            <div class="floating-container" id="introFloats"></div>
+
+            <div onclick="openGift()" id="giftContainer" 
+                 class="gift-box cursor-pointer mx-auto relative w-72 h-72 flex items-center justify-center">
+                <div class="relative w-60 h-60 bg-gradient-to-br from-pink-400 to-rose-500 rounded-3xl shadow-xl shadow-pink-500/40 flex items-center justify-center overflow-hidden">
+                    <div id="giftLid" class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-br from-pink-300 to-rose-400 rounded-t-3xl z-10 border-b-8 border-rose-600 flex items-center justify-center">
+                        <div class="text-6xl">🎀</div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-br from-pink-500 to-rose-600 rounded-b-3xl"></div>
+                    <div class="absolute text-8xl">🎁</div>
+                </div>
+            </div>
+
+            <p class="mt-10 text-3xl romantic-font text-pink-100">Tap the gift, Sayang...</p>
+            <p class="text-pink-200 mt-2">Dari Jelly untuk Safa 💖</p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="mainContent" class="hidden min-h-screen relative">
+
+        <div class="bg-layer"></div>
+        <canvas id="particleCanvas"></canvas>
+        <div class="floating-container" id="mainFloats"></div>
+
+        <!-- HEADER -->
+        <header class="pt-12 pb-8 text-center">
+            <div class="max-w-4xl mx-auto px-6">
+                <p class="text-2xl">Untuk: <span class="font-bold text-white">Safa</span></p>
+                <p class="text-2xl text-pink-200">Dari: <span class="font-bold text-white">Jelly</span></p>
+                
+                <h1 class="title-font text-7xl md:text-8xl leading-none mt-8 bg-gradient-to-r from-pink-200 via-rose-200 to-purple-200 bg-clip-text text-transparent">
+                    Surat Untuk<br>Sang Kekasih
+                </h1>
+            </div>
+        </header>
+
+        <!-- MUSIC PLAYER -->
+        <div class="max-w-xl mx-auto px-6 mb-16">
+            <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8">
+                <div class="flex gap-5 items-center mb-6">
+                    <div class="text-5xl">💖</div>
+                    <div>
+                        <p class="font-medium">Lagu Untukmu</p>
+                        <p class="text-pink-200 text-sm">Jelly - Selalu Bersamamu</p>
+                    </div>
+                </div>
+
+                <audio id="loveAudio" loop>
+                    <!-- 🔴 REPLACE YOUR OWN MP3 HERE -->
+                    <source src="bad.mp3" type="audio/mpeg">
+                </audio>
+
+                <div class="flex items-center gap-5">
+                    <button onclick="toggleMusic()" id="playBtn"
+                            class="w-14 h-14 bg-white text-rose-600 rounded-2xl flex items-center justify-center text-3xl active:scale-95">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    
+                    <div class="flex-1 h-1.5 bg-white/30 rounded-full overflow-hidden">
+                        <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-pink-400 to-rose-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOVE LETTER -->
+        <section class="max-w-3xl mx-auto px-6 pb-20">
+            <div class="bg-white/5 backdrop-blur-xl border border-pink-100/20 rounded-3xl p-12 md:p-16 text-lg leading-relaxed">
+                <p class="mb-8">Hai Safa, cinta aku...</p>
+                <p class="mb-8">Aku bersyukur banget setiap hari karena kamu ada di hidup aku. Kamu bikin hari-hari biasa jadi istimewa.</p>
+                <p class="mb-8">Senyummu selalu jadi obat buat aku kalau lagi capek atau sedih. Kamu tempat aku pulang, tempat aku cerita apa saja.</p>
+                <p class="mb-8">Aku suka banget momen kecil kita — jalan bareng, ketawa bareng, atau cuma diam sambil pegangan tangan. Semua itu aku simpen di hati.</p>
+                <p class="mb-8">Terima kasih udah sabar sama aku, udah sayang aku apa adanya. Aku janji bakal terus berusaha jadi yang terbaik buat kamu.</p>
+                <p class="mb-8">Kamu spesial banget. Aku merasa paling beruntung bisa jadi pacar kamu.</p>
+                <p class="mb-12">Aku cinta kamu, Safa. Mau terus bareng kamu sampai nanti.</p>
+                
+                <div class="text-right">
+                    <p class="romantic-font text-5xl text-pink-200">Selamanya milikmu,</p>
+                    <p class="text-3xl mt-1">Jelly 💖</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MEMORY GALLERY - 5 PHOTOS -->
+        <section class="max-w-6xl mx-auto px-6 pb-24">
+            <h2 class="romantic-font text-6xl text-center mb-16 text-pink-100">Your Photo 💕</h2>
+            
+            <!-- First Row: 2 Photos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <!-- Photo 1 -->
+                <div class="photo-card aspect-[4/3] group">
+                    <img src="safa1.jpg" alt="Memory 1" class="w-full h-full object-cover">
+                    <div class="photo-overlay">
+                        <p class="text-xl text-white">mirip sakura, cantik bgt 🌸</p>
+                    </div>
+                    <!-- REPLACE IMAGE HERE -->
+                    <!-- <img src="your-photo-1.jpg" ... > -->
+                </div>
+
+                <!-- Photo 2 -->
+                <div class="photo-card aspect-[4/3] group">
+                    <img src="safa2.jpg" alt="Memory 2" class="w-full h-full object-cover">
+                    <div class="photo-overlay">
+                        <p class="text-xl text-white">aku sayang kmu💕</p>
+                    </div>
+                    <!-- REPLACE IMAGE HERE -->
+                    <!-- <img src="your-photo-2.jpg" ... > -->
+                </div>
+            </div>
+
+            <!-- Second Row: 3 Photos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Photo 3 -->
+                <div class="photo-card aspect-square group">
+                    <img src="safa3.jpg" alt="Memory 3" class="w-full h-full object-cover">
+                    <div class="photo-overlay">
+                        <p class="text-xl text-white">mwahh ✨</p>
+                    </div>
+                    <!-- REPLACE IMAGE HERE -->
+                    <!-- <img src="your-photo-3.jpg" ... > -->
+                </div>
+
+                <!-- Photo 4 -->
+                <div class="photo-card aspect-square group">
+                    <img src="safa4.jpg" alt="Memory 4" class="w-full h-full object-cover">
+                    <div class="photo-overlay">
+                        <p class="text-xl text-white">imutnyaa cewe akuh 😜</p>
+                    </div>
+                    <!-- REPLACE IMAGE HERE -->
+                    <!-- <img src="your-photo-4.jpg" ... > -->
+                </div>
+
+                <!-- Photo 5 -->
+                <div class="photo-card aspect-square group">
+                    <img src="safa5.jpg" alt="Memory 5" class="w-full h-full object-cover">
+                    <div class="photo-overlay">
+                        <p class="text-xl text-white">aduhai cantiknya 💖</p>
+                    </div>
+                    <!-- REPLACE IMAGE HERE -->
+                    <!-- <img src="your-photo-5.jpg" ... > -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CLOSING -->
+        <div class="max-w-2xl mx-auto px-6 pb-28 text-center">
+            <div class="bg-gradient-to-br from-pink-500/10 to-purple-500/10 border border-pink-200/30 rounded-3xl p-14">
+                <p class="text-3xl leading-relaxed romantic-font">
+                    Kamu adalah mimpi terindah yang jadi kenyataan.<br>
+                    Terima kasih udah jadi alasan aku bahagia setiap hari.
+                </p>
+                <div class="mt-12 text-pink-200 text-2xl">💖 Jelly untuk Safa selamanya 💖</div>
+            </div>
+        </div>
+
+        <footer class="py-10 text-center border-t border-white/10">
+            <p class="text-pink-300/60 text-sm">Made with all my love • Jelly</p>
+        </footer>
+    </div>
+
+    <script>
+        // Lightweight Particle System
+        let canvas, ctx, particles = [];
+        
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 3;
+                this.speedY = Math.random() * -0.8 - 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.opacity = Math.random() * 0.6 + 0.35;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.opacity -= 0.0025;
+                if (this.opacity <= 0 || this.y < 0) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ffb3d1';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initParticles() {
+            canvas = document.getElementById('particleCanvas');
+            ctx = canvas.getContext('2d', { alpha: true });
+
+            const resize = () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            };
+            resize();
+            window.addEventListener('resize', resize);
+
+            for (let i = 0; i < 55; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let p of particles) {
+                    p.update();
+                    p.draw();
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // Limited Floating Elements
+        function createFloatingElements(containerId) {
+            const container = document.getElementById(containerId);
+            const items = ['💖','🌸','✨','🌹'];
+            const count = 18;
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'float-item text-3xl';
+                el.textContent = items[Math.floor(Math.random() * items.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = (25 + Math.random() * 20) + 's';
+                el.style.animationDelay = '-' + Math.random() * 40 + 's';
+                el.style.top = '100vh';
+                container.appendChild(el);
+            }
+        }
+
+        // Gift Opening
+        function openGift() {
+            const intro = document.getElementById('introScreen');
+            const gift = document.getElementById('giftContainer');
+            
+            gift.style.transform = 'scale(2.2) rotate(12deg)';
+            gift.style.opacity = '0';
+
+            setTimeout(() => {
+                intro.style.transition = 'opacity 1.2s';
+                intro.style.opacity = '0';
+                setTimeout(() => {
+                    intro.classList.add('hidden');
+                    document.getElementById('mainContent').classList.remove('hidden');
+                }, 900);
+            }, 700);
+        }
+
+        // Music Player
+        let isPlaying = false;
+        const audio = document.getElementById('loveAudio');
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = `<i class="fa-solid fa-play"></i>`;
+            } else {
+                audio.play();
+                playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+            }
+            isPlaying = !isPlaying;
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+            }
+        });
+
+        // Initialize
+        window.onload = () => {
+            initParticles();
+            createFloatingElements('introFloats');
+            createFloatingElements('mainFloats');
+        };
+    </script>
+</body>
+</html>
